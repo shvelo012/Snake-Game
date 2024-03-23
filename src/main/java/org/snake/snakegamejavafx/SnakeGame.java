@@ -64,6 +64,7 @@ public class SnakeGame extends Application {
         snakesLength = 6;
         direction = 'R';
         createApple();
+        System.out.println("saba");
     }
 
     private void createApple() {
