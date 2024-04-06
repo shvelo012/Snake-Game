@@ -91,17 +91,23 @@ public class SnakeGame extends Application {
         primaryStage.show();
     }
 
-    private void startGame() {
-        for (int i = 0; i < snakesLength; i++) {
-            snakeX[i] = 0;
-            snakeY[i] = 0;
-        }
-        snakesLength = 6;
-        direction = 'R';
-        createApple();
-        gameOver = false;
-        score = 0;
+private void startGame() {
+    // Generate random positions for the snake's head
+    int headX = (int) (Math.random() * GAME_UNITS) * UNIT_SIZE;
+    int headY = (int) (Math.random() * GAME_UNITS) * UNIT_SIZE;
+
+    // Initialize the entire snake body to the head's position
+    for (int i = 0; i < snakesLength; i++) {
+        snakeX[i] = headX;
+        snakeY[i] = headY;
     }
+
+    snakesLength = 6;
+    direction = 'R';
+    createApple();
+    gameOver = false;
+    score = 0;
+}
 
 
     private void createApple() {
@@ -186,6 +192,6 @@ public class SnakeGame extends Application {
             gc.fillText("Game Over! Final Score: " + score, SCREEN_WIDTH / 2 - 50, SCREEN_HEIGHT / 2);
             gc.fillText("Press 'R' for restart the game", SCREEN_WIDTH / 2 - 50, SCREEN_HEIGHT / 2 + 20);
         }
-§    }
+    }
 
 }
