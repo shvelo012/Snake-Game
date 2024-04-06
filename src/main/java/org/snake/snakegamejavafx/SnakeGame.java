@@ -12,8 +12,8 @@ import javafx.stage.Stage;
 
 public class SnakeGame extends Application {
 
-    private static final int SCREEN_WIDTH = 400;
-    private static final int SCREEN_HEIGHT = 400;
+    private static final int SCREEN_WIDTH = 700;
+    private static final int SCREEN_HEIGHT = 700;
     private static final int UNIT_SIZE = 10;
     private static final int GAME_UNITS = SCREEN_WIDTH / UNIT_SIZE;
     private final int[] snakeX = new int[GAME_UNITS];
@@ -25,6 +25,11 @@ public class SnakeGame extends Application {
     private boolean gameOver = false;
     private Canvas canvas;
     private GraphicsContext gc;
+
+    public Canvas getCanvas() {
+        return canvas;
+    }
+
 
     @Override
     public void start(Stage primaryStage) {
@@ -64,7 +69,6 @@ public class SnakeGame extends Application {
         snakesLength = 6;
         direction = 'R';
         createApple();
-        System.out.println("saba");
     }
 
     private void createApple() {
