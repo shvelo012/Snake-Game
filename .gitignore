@@ -3,8 +3,7 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 ### IntelliJ IDEA ###
-workspace.xml
-.idea
+.idea/
 .idea/modules.xml
 .idea/jarRepositories.xml
 .idea/compiler.xml
