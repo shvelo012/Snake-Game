@@ -24,6 +24,9 @@ public class SnakeGame extends Application {
     private char direction = 'R';
     private boolean gameOver = false;
     private Canvas canvas;
+
+    private int score = 0;
+
     private GraphicsContext gc;
 
 
@@ -154,17 +157,21 @@ public class SnakeGame extends Application {
     private void checkAppleCollision() {
         if (snakeX[0] == appleX && snakeY[0] == appleY) {
             snakesLength++;
+            score+=10;
             createApple();
         }
     }
-
-
 
     private void draw() {
         gc.clearRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
         // Draw apple
         gc.setFill(Color.RED);
         gc.fillRect(appleX, appleY, UNIT_SIZE, UNIT_SIZE);
+
+        // Draw score
+
+        gc.setFill(Color.BLACK);
+        gc.fillText("Score: " + score, 10, 20);
 
         // Draw snake
         gc.setFill(Color.GREEN);
@@ -175,7 +182,7 @@ public class SnakeGame extends Application {
         // If game is over, display game over text
         if (gameOver) {
             gc.setFill(Color.RED);
-            gc.fillText("Game Over!", SCREEN_WIDTH / 2 - 50, SCREEN_HEIGHT / 2);
+            gc.fillText("Game Over! Final Score: " + score, SCREEN_WIDTH / 2 - 50, SCREEN_HEIGHT / 2);
         }
     }
 
