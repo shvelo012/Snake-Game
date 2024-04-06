@@ -1,4 +1,4 @@
- package org.snake.snakegamejavafx;
+package org.snake.snakegamejavafx;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
@@ -30,8 +30,6 @@ public class SnakeGame extends Application {
     private GraphicsContext gc;
 
 
-
-
     public enum Difficulty {
         EASY(100_000_000), MEDIUM(50_000_000), HARD(35_000_000);
 
@@ -50,11 +48,9 @@ public class SnakeGame extends Application {
     private Difficulty difficulty = Difficulty.MEDIUM; // Default difficulty
 
 
-
     public Canvas getCanvas() {
         return canvas;
     }
-
 
 
     @Override
@@ -96,13 +92,16 @@ public class SnakeGame extends Application {
     }
 
     private void startGame() {
-        snakeX[0] = 0;
-        snakeY[0] = 0;
+        for (int i = 0; i < snakesLength; i++) {
+            snakeX[i] = 0;
+            snakeY[i] = 0;
+        }
         snakesLength = 6;
         direction = 'R';
         createApple();
+        gameOver = false;
+        score = 0;
     }
-
 
 
     private void createApple() {
@@ -119,6 +118,8 @@ public class SnakeGame extends Application {
             direction = 'U';
         } else if (code == KeyCode.DOWN && direction != 'U') {
             direction = 'D';
+        } else if (code == KeyCode.R && gameOver ) {
+            startGame();
         }
     }
 
@@ -141,6 +142,7 @@ public class SnakeGame extends Application {
             case 'D':
                 snakeY[0] = (snakeY[0] + UNIT_SIZE) % SCREEN_HEIGHT;
                 break;
+
         }
         gameOver = checkCollision();
     }
@@ -157,7 +159,7 @@ public class SnakeGame extends Application {
     private void checkAppleCollision() {
         if (snakeX[0] == appleX && snakeY[0] == appleY) {
             snakesLength++;
-            score+=10;
+            score += 10;
             createApple();
         }
     }
@@ -169,7 +171,6 @@ public class SnakeGame extends Application {
         gc.fillRect(appleX, appleY, UNIT_SIZE, UNIT_SIZE);
 
         // Draw score
-
         gc.setFill(Color.BLACK);
         gc.fillText("Score: " + score, 10, 20);
 
