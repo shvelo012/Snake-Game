@@ -127,19 +127,19 @@ public class SnakeGame extends Application {
 
         switch (direction) {
             case 'R':
-                snakeX[0] = snakeX[0] + UNIT_SIZE;
+                snakeX[0] = (snakeX[0] + UNIT_SIZE) % SCREEN_WIDTH;
                 break;
             case 'L':
-                snakeX[0] = snakeX[0] - UNIT_SIZE;
+                snakeX[0] = (snakeX[0] - UNIT_SIZE + SCREEN_WIDTH) % SCREEN_WIDTH;
                 break;
             case 'U':
-                snakeY[0] = snakeY[0] - UNIT_SIZE;
+                snakeY[0] = (snakeY[0] - UNIT_SIZE + SCREEN_HEIGHT) % SCREEN_HEIGHT;
                 break;
             case 'D':
-                snakeY[0] = snakeY[0] + UNIT_SIZE;
+                snakeY[0] = (snakeY[0] + UNIT_SIZE) % SCREEN_HEIGHT;
                 break;
         }
-        gameOver = snakeX[0] < 0 || snakeX[0] >= SCREEN_WIDTH || snakeY[0] < 0 || snakeY[0] >= SCREEN_HEIGHT || checkCollision();
+        gameOver = checkCollision();
     }
 
     private boolean checkCollision() {
@@ -158,24 +158,6 @@ public class SnakeGame extends Application {
         }
     }
 
-//    private void draw() {
-//        gc.clearRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-//        // Draw apple
-//        gc.setFill(Color.RED);
-//        gc.fillRect(appleX, appleY, UNIT_SIZE, UNIT_SIZE);
-//
-//        // Draw snake
-//        gc.setFill(Color.GREEN);
-//        for (int i = 0; i < snakesLength; i++) {
-//            gc.fillRect(snakeX[i], snakeY[i], UNIT_SIZE, UNIT_SIZE);
-//        }
-//
-//        // If game is over, display game over text
-//        if (gameOver) {
-//            gc.setFill(Color.RED);
-//            gc.fillText("Game Over!", SCREEN_WIDTH / 2 - 50, SCREEN_HEIGHT / 2);
-//        }
-//    }
 
 
     private void draw() {
@@ -197,7 +179,4 @@ public class SnakeGame extends Application {
         }
     }
 
-    public static void main(String[] args) {
-        launch(args);
-    }
 }
