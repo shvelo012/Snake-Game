@@ -1,4 +1,4 @@
-package org.snake.snakegamejavafx;
+ package org.snake.snakegamejavafx;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
@@ -26,6 +26,27 @@ public class SnakeGame extends Application {
     private Canvas canvas;
     private GraphicsContext gc;
 
+
+
+    public enum Difficulty {
+        EASY(100_000_000), MEDIUM(50_000_000), HARD(35_000_000);
+
+        private final long delay;
+
+        Difficulty(long delay) {
+            this.delay = delay;
+        }
+
+        public long getDelay() {
+            return delay;
+        }
+    }
+
+
+    private Difficulty difficulty = Difficulty.MEDIUM; // Default difficulty
+
+
+
     @Override
     public void start(Stage primaryStage) {
         canvas = new Canvas(SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -43,15 +64,21 @@ public class SnakeGame extends Application {
 
         // Start the game loop
         new AnimationTimer() {
+            private long lastUpdate = 0;
+
             @Override
             public void handle(long now) {
-                if (!gameOver) {
-                    move();
-                    checkAppleCollision();
-                    draw();
+                if (now - lastUpdate >= difficulty.getDelay()) {
+                    lastUpdate = now;
+                    if (!gameOver) {
+                        move();
+                        checkAppleCollision();
+                        draw();
+                    }
                 }
             }
         }.start();
+
 
         primaryStage.setTitle("Snake Game");
         primaryStage.setScene(scene);
@@ -64,8 +91,9 @@ public class SnakeGame extends Application {
         snakesLength = 6;
         direction = 'R';
         createApple();
-        System.out.println("saba");
     }
+
+
 
     private void createApple() {
         appleX = (int) (Math.random() * GAME_UNITS) * UNIT_SIZE;
@@ -104,8 +132,6 @@ public class SnakeGame extends Application {
                 snakeY[0] = snakeY[0] + UNIT_SIZE;
                 break;
         }
-
-        // Check for collisions with walls and itself
         gameOver = snakeX[0] < 0 || snakeX[0] >= SCREEN_WIDTH || snakeY[0] < 0 || snakeY[0] >= SCREEN_HEIGHT || checkCollision();
     }
 
@@ -125,6 +151,26 @@ public class SnakeGame extends Application {
         }
     }
 
+//    private void draw() {
+//        gc.clearRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+//        // Draw apple
+//        gc.setFill(Color.RED);
+//        gc.fillRect(appleX, appleY, UNIT_SIZE, UNIT_SIZE);
+//
+//        // Draw snake
+//        gc.setFill(Color.GREEN);
+//        for (int i = 0; i < snakesLength; i++) {
+//            gc.fillRect(snakeX[i], snakeY[i], UNIT_SIZE, UNIT_SIZE);
+//        }
+//
+//        // If game is over, display game over text
+//        if (gameOver) {
+//            gc.setFill(Color.RED);
+//            gc.fillText("Game Over!", SCREEN_WIDTH / 2 - 50, SCREEN_HEIGHT / 2);
+//        }
+//    }
+
+
     private void draw() {
         gc.clearRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
         // Draw apple
@@ -134,7 +180,7 @@ public class SnakeGame extends Application {
         // Draw snake
         gc.setFill(Color.GREEN);
         for (int i = 0; i < snakesLength; i++) {
-            gc.fillRect(snakeX[i], snakeY[i], UNIT_SIZE, UNIT_SIZE);
+            gc.fillRect((int) Math.round(snakeX[i]), (int) Math.round(snakeY[i]), UNIT_SIZE, UNIT_SIZE);
         }
 
         // If game is over, display game over text
