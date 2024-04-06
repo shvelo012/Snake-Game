@@ -184,7 +184,8 @@ public class SnakeGame extends Application {
         if (gameOver) {
             gc.setFill(Color.RED);
             gc.fillText("Game Over! Final Score: " + score, SCREEN_WIDTH / 2 - 50, SCREEN_HEIGHT / 2);
+            gc.fillText("Press 'R' for restart the game", SCREEN_WIDTH / 2 - 50, SCREEN_HEIGHT / 2 + 20);
         }
-    }
+§    }
 
 }
