@@ -7,4 +7,7 @@
    <children>
       <Button layoutX="261.0" layoutY="188.0" mnemonicParsing="false" onAction="#onGameStart" prefHeight="24.0" prefWidth="78.0" text="Start" />
    </children>
+   <Button layoutX="265.0" layoutY="233.0" onAction="#setMediumDifficulty" text="Medium" />
+   <Button layoutX="168.0" layoutY="233.0" onAction="#setEasyDifficulty" text="Easy" />
+   <Button layoutX="389.0" layoutY="233.0" onAction="#setHardDifficulty" text="Hard" />
 </AnchorPane>

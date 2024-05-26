@@ -12,15 +12,19 @@ import javafx.stage.Stage;
 
 public class SnakeGame extends Application {
 
+    Stage window;
+
     private static final int SCREEN_WIDTH = 700;
     private static final int SCREEN_HEIGHT = 700;
-    private static final int UNIT_SIZE = 10;
-    private static final int GAME_UNITS = SCREEN_WIDTH / UNIT_SIZE;
+    private static final int UNIT_SIZE = 20;
+    private static final int GAME_UNITS = (SCREEN_WIDTH * SCREEN_HEIGHT) / (UNIT_SIZE * UNIT_SIZE); // Adjust the maximum possible units
     private final int[] snakeX = new int[GAME_UNITS];
     private final int[] snakeY = new int[GAME_UNITS];
     private int snakesLength = 6;
     private int appleX = 0;
     private int appleY = 0;
+    private int specialAppleX = -1;
+    private int specialAppleY = -1;
     private char direction = 'R';
     private boolean gameOver = false;
     private Canvas canvas;
@@ -29,9 +33,10 @@ public class SnakeGame extends Application {
 
     private GraphicsContext gc;
 
+    private int appleCounter = 0;
 
     public enum Difficulty {
-        EASY(100_000_000), MEDIUM(50_000_000), HARD(35_000_000);
+        EASY(100_000_000), MEDIUM(50_000_000), HARD(30_000_000);
 
         private final long delay;
 
@@ -44,17 +49,20 @@ public class SnakeGame extends Application {
         }
     }
 
+    private Difficulty difficulty;
 
-    private Difficulty difficulty = Difficulty.MEDIUM; // Default difficulty
-
-
-    public Canvas getCanvas() {
-        return canvas;
+    public SnakeGame() {
+        this.difficulty = Difficulty.MEDIUM;
     }
 
+    public SnakeGame(Difficulty difficulty) {
+        this.difficulty = difficulty;
+    }
 
     @Override
     public void start(Stage primaryStage) {
+        System.out.println(difficulty);
+        window = primaryStage;
         canvas = new Canvas(SCREEN_WIDTH, SCREEN_HEIGHT);
         gc = canvas.getGraphicsContext2D();
 
@@ -85,34 +93,50 @@ public class SnakeGame extends Application {
             }
         }.start();
 
+        window.setTitle("Snake Game");
+        window.setScene(scene);
+        window.show();
 
-        primaryStage.setTitle("Snake Game");
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        window.setOnCloseRequest(event -> {
+            SnakeGameLayout.returnToMainMenu();
+            event.consume(); // Prevent the default close action
+        });
+
+        draw(); // Draw the initial state of the game
     }
 
-private void startGame() {
-    // Generate random positions for the snake's head
-    int headX = (int) (Math.random() * GAME_UNITS) * UNIT_SIZE;
-    int headY = (int) (Math.random() * GAME_UNITS) * UNIT_SIZE;
+    private void startGame() {
+        // Generate random positions for the snake's head within bounds
+        int headX = (int) (Math.random() * (SCREEN_WIDTH / UNIT_SIZE)) * UNIT_SIZE;
+        int headY = (int) (Math.random() * (SCREEN_HEIGHT / UNIT_SIZE)) * UNIT_SIZE;
 
-    // Initialize the entire snake body to the head's position
-    for (int i = 0; i < snakesLength; i++) {
-        snakeX[i] = headX;
-        snakeY[i] = headY;
+        // Initialize the snake segments to follow the head
+        for (int i = 0; i < snakesLength; i++) {
+            snakeX[i] = headX - i * UNIT_SIZE;
+            snakeY[i] = headY;
+        }
+
+        snakesLength = 6;
+        direction = 'R';
+        appleCounter = 0; // Reset apple counter
+        createApple();
+        gameOver = false;
+        score = 0;
     }
-
-    snakesLength = 6;
-    direction = 'R';
-    createApple();
-    gameOver = false;
-    score = 0;
-}
-
 
     private void createApple() {
-        appleX = (int) (Math.random() * GAME_UNITS) * UNIT_SIZE;
-        appleY = (int) (Math.random() * GAME_UNITS) * UNIT_SIZE;
+        if (appleCounter > 0 && appleCounter % 5 == 0) {
+            // Create a special apple every fifth apple
+            specialAppleX = (int) (Math.random() * (SCREEN_WIDTH / UNIT_SIZE)) * UNIT_SIZE;
+            specialAppleY = (int) (Math.random() * (SCREEN_HEIGHT / UNIT_SIZE)) * UNIT_SIZE;
+        } else {
+            // Create a regular apple
+            appleX = (int) (Math.random() * (SCREEN_WIDTH / UNIT_SIZE)) * UNIT_SIZE;
+            appleY = (int) (Math.random() * (SCREEN_HEIGHT / UNIT_SIZE)) * UNIT_SIZE;
+            specialAppleX = -1; // No special apple
+            specialAppleY = -1; // No special apple
+        }
+        appleCounter++;
     }
 
     private void changeDirection(KeyCode code) {
@@ -124,15 +148,15 @@ private void startGame() {
             direction = 'U';
         } else if (code == KeyCode.DOWN && direction != 'U') {
             direction = 'D';
-        } else if (code == KeyCode.R && gameOver ) {
+        } else if (code == KeyCode.R && gameOver) {
             startGame();
         }
     }
 
     private void move() {
-        for (int i = snakesLength - 1; i >= 0; i--) {
-            snakeX[i + 1] = snakeX[i];
-            snakeY[i + 1] = snakeY[i];
+        for (int i = snakesLength - 1; i > 0; i--) {
+            snakeX[i] = snakeX[i - 1];
+            snakeY[i] = snakeY[i - 1];
         }
 
         switch (direction) {
@@ -148,7 +172,6 @@ private void startGame() {
             case 'D':
                 snakeY[0] = (snakeY[0] + UNIT_SIZE) % SCREEN_HEIGHT;
                 break;
-
         }
         gameOver = checkCollision();
     }
@@ -168,13 +191,35 @@ private void startGame() {
             score += 10;
             createApple();
         }
+        if (specialAppleX != -1 && specialAppleY != -1) {
+            // Adjust collision detection to account for the 3x3 size
+            for (int x = specialAppleX; x < specialAppleX + UNIT_SIZE * 3; x += UNIT_SIZE) {
+                for (int y = specialAppleY; y < specialAppleY + UNIT_SIZE * 3; y += UNIT_SIZE) {
+                    if (snakeX[0] == x && snakeY[0] == y) {
+                        snakesLength += 5;
+                        score += 50;
+                        createApple();
+                        specialAppleX = -1;
+                        specialAppleY = -1;
+                        return;
+                    }
+                }
+            }
+        }
     }
 
     private void draw() {
         gc.clearRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-        // Draw apple
-        gc.setFill(Color.RED);
-        gc.fillRect(appleX, appleY, UNIT_SIZE, UNIT_SIZE);
+        if (specialAppleX == -1 && specialAppleY == -1) {
+            // Draw apple
+            gc.setFill(Color.RED);
+            gc.fillOval(appleX, appleY, UNIT_SIZE, UNIT_SIZE);
+        }
+
+        if (specialAppleX != -1 && specialAppleY != -1) {
+            gc.setFill(Color.BLUE);
+            gc.fillOval(specialAppleX, specialAppleY, UNIT_SIZE * 3, UNIT_SIZE * 3);
+        }
 
         // Draw score
         gc.setFill(Color.BLACK);
@@ -183,7 +228,7 @@ private void startGame() {
         // Draw snake
         gc.setFill(Color.GREEN);
         for (int i = 0; i < snakesLength; i++) {
-            gc.fillRect((int) Math.round(snakeX[i]), (int) Math.round(snakeY[i]), UNIT_SIZE, UNIT_SIZE);
+            gc.fillRect(snakeX[i], snakeY[i], UNIT_SIZE, UNIT_SIZE);
         }
 
         // If game is over, display game over text
@@ -194,4 +239,7 @@ private void startGame() {
         }
     }
 
+    public static void main(String[] args) {
+        launch(args);
+    }
 }

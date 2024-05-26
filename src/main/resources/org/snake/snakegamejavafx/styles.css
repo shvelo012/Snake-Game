@@ -1,0 +1,40 @@
+/* styles.css */
+.button {
+    -fx-font-family: 'Arial';
+    -fx-font-size: 14px;
+    -fx-padding: 10 20 10 20;
+    -fx-background-radius: 10;
+    -fx-text-fill: white;
+    -fx-cursor: hand;
+}
+
+.button:hover {
+    -fx-opacity: 0.8;
+}
+
+.button:pressed {
+    -fx-background-color: #333;
+}
+
+.button-start {
+    -fx-background-color: #4CAF50;
+    -fx-font-size: 16px;
+}
+
+.button-easy {
+    -fx-background-color: #8BC34A;
+}
+
+.button-medium {
+    -fx-background-color: #2196F3;
+}
+
+.button-hard {
+    -fx-background-color: #F44336;
+}
+
+.radio-button:selected {
+    -fx-border-color: gold;
+    -fx-border-width: 2px;
+    -fx-background-insets: -2;
+}
