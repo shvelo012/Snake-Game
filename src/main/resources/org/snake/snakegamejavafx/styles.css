@@ -1,4 +1,5 @@
 /* styles.css */
+
 .button {
     -fx-font-family: 'Arial';
     -fx-font-size: 14px;
@@ -38,3 +39,4 @@
     -fx-border-width: 2px;
     -fx-background-insets: -2;
 }
+

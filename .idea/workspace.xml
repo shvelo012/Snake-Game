@@ -5,10 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1caa179f-fcdf-4699-86ab-02c1dbf4cc8e" name="Changes" comment="initial commit">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/snake/snakegamejavafx/SnakeGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/snake/snakegamejavafx/SnakeGame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/snake/snakegamejavafx/SnakeGameLayout.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/snake/snakegamejavafx/SnakeGameLayout.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/org/snake/snakegamejavafx/snake-game-layout.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/snake/snakegamejavafx/snake-game-layout.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/org/snake/snakegamejavafx/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/snake/snakegamejavafx/styles.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,25 +16,25 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 1
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 1
+}</component>
   <component name="ProjectId" id="2h0HvLr77uEWElqsx3c8gORDBCs" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.SnakeGame.executor": "Run",
-    "Application.SnakeGameLayout.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
-    "kotlin-language-version-configured": "true",
-    "node.js.selected.package.tslint": "(autodetect)"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.SnakeGame.executor&quot;: &quot;Run&quot;,
+    &quot;Application.SnakeGameLayout.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="SnakeGameLayout" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="org.snake.snakegamejavafx.SnakeGameLayout" />
